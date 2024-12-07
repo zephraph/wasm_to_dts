@@ -1,6 +1,13 @@
 [tasks.build]
 description = "Build the WASM binary"
-run = "cargo build --target wasm32-unknown-unknown"
+run = "wasm-pack build --target web"
+
+[tasks.install-build-deps]
+description = "Install build dependencies"
+run = "cargo install wasm-pack wasm-opt"
 
 [tools]
 rust = { version = "stable", postinstall = "rustup target add wasm32-unknown-unknown" }
+
+[hooks]
+postinstall = "mise run install-build-deps"
