@@ -2,9 +2,11 @@ name: Build WASM
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'build.rs'
+      - 'Cargo.toml'
+      - 'mise.toml'
 
 jobs:
   build:
