@@ -1,0 +1,6 @@
+[tasks.build]
+description = "Build the WASM binary"
+run = "cargo build --target wasm32-unknown-unknown"
+
+[tools]
+rust = { version = "stable", postinstall = "rustup target add wasm32-unknown-unknown" }
