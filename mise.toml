@@ -2,12 +2,7 @@
 description = "Build the WASM binary"
 run = "wasm-pack build --target web"
 
-[tasks.install-build-deps]
-description = "Install build dependencies"
-run = "cargo install wasm-pack wasm-opt"
-
 [tools]
-rust = { version = "stable", postinstall = "rustup target add wasm32-unknown-unknown" }
-
-[hooks]
-postinstall = "mise run install-build-deps"
+"aqua:WebAssembly/binaryen" = "120_b"
+"aqua:rustwasm/wasm-pack" = "0.13.1"
+rust = { version = "1.83.0", postinstall = "rustup target add wasm32-unknown-unknown" }
