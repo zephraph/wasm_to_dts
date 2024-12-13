@@ -10,6 +10,8 @@ license = "MIT"
 wasm_dep_analyzer = "0.2.0"
 deno_ast = "0.44.0"
 wasm-bindgen = "0.2"
+capacity_builder = "0.1.0"
+indexmap = { version = "2", features = ["serde"] }
 
 [dev-dependencies]
 pretty_assertions = "1.0.0"

@@ -28,7 +28,7 @@ jobs:
           body: |
             Automated PR to update WASM code.
 
-            Pulls wasm.rs from [deno_graph](https://github.com/denoland/deno_graph/main/src/source/wasm.rs).
+            Pulls wasm.rs from [deno_graph](https://github.com/denoland/deno_graph/blob/main/src/source/wasm.rs).
             Created from the [update-wasm action](.github/workflows/update-wasm.yml)
           branch: update-wasm
           reviewers: zephraph
