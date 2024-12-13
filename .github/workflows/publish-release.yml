@@ -1,0 +1,44 @@
+name: Publish Release
+
+on:
+  workflow_run:
+    workflows: ["Build WASM"]
+    types:
+      - completed
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Check for artifacts
+        id: check_artifacts
+        run: |
+          artifacts=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts")
+          count=$(echo $artifacts | jq '.total_count')
+          echo "artifact_count=$count" >> $GITHUB_OUTPUT
+          
+      - name: Download artifact
+        if: steps.check_artifacts.outputs.artifact_count > 0
+        uses: actions/download-artifact@v4
+        with:
+          name: wasm-build
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          
+      - name: Create Release
+        if: steps.check_artifacts.outputs.artifact_count > 0
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *.wasm
+            *.js
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
+          draft: false
+          prerelease: ${{ github.event.workflow_run.head_branch != 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

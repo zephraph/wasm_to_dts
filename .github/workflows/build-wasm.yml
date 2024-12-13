@@ -2,27 +2,29 @@ name: Build WASM
 
 on:
   push:
-    paths:
-      - 'src/**'
-      - 'build.rs'
-      - 'Cargo.toml'
-      - 'mise.toml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v2
 
-    - name: Build WASM binary
-      run: mise run build
+      - name: Build WASM binary
+        run: mise run build
 
-    - name: Upload WASM artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: wasm-package
-        path: pkg/
-        retention-days: 7 
+      - name: Cache check
+        id: cache-check
+        uses: actions/cache@v4
+        with:
+          path: pkg
+          key: wasm-build-${{ hashFiles('src/**', 'Cargo.lock') }}
+
+      - name: Upload WASM artifacts
+        if: steps.cache-check.outputs.cache-hit != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasm-package
+          path: pkg/
+          retention-days: 7
