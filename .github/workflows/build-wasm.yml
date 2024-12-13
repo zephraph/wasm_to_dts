@@ -12,14 +12,19 @@ jobs:
       - uses: jdx/mise-action@v2
 
       - name: Build WASM binary
-        run: mise run build
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            mise run build -- --release
+          else
+            mise run build -- --dev
+          fi
 
       - name: Cache check
         id: cache-check
         uses: actions/cache@v4
         with:
           path: pkg
-          key: wasm-build-${{ hashFiles('src/**', 'Cargo.lock') }}
+          key: wasm-build-${{ github.ref_name }}-${{ hashFiles('src/**', 'Cargo.lock') }}
 
       - name: Upload WASM artifacts
         if: steps.cache-check.outputs.cache-hit != 'true'
