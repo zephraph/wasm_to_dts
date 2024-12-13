@@ -1,0 +1,13 @@
+{
+  "deno.enablePaths": [
+    "scripts"
+  ],
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
+}
