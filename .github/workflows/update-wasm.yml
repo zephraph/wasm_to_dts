@@ -1,0 +1,36 @@
+name: Update WASM Code
+
+on:
+  # Triggered by https://www.val.town/v/just_be/denoWasmModuleChanged
+  workflow_dispatch:      
+
+jobs:
+  update-wasm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mise
+        uses: jdx/mise-action@v2
+
+      - name: Update WASM code
+        run: mise run pull-wasm
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: '[Automated] update WASM code'
+          title: '[Automated] update WASM code'
+          body: |
+            Automated PR to update WASM code.
+
+            Pulls wasm.rs from [deno_graph](https://github.com/denoland/deno_graph/main/src/source/wasm.rs).
+            Created from the [update-wasm action](.github/workflows/update-wasm.yml)
+          branch: update-wasm
+          reviewers: zephraph
+          delete-branch: true
+          base: main 
