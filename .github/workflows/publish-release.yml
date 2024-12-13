@@ -6,6 +6,10 @@ on:
     types:
       - completed
 
+permissions:
+  contents: write    # Required for creating releases
+  actions: read      # Required for downloading artifacts
+
 jobs:
   publish:
     runs-on: ubuntu-latest
