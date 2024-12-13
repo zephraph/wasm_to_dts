@@ -5,6 +5,8 @@ run = "./scripts/update-wasm-rs.ts"
 [tasks.build]
 description = "Build the WASM binary"
 run = "wasm-pack build --target web"
+sources = ["Cargo.toml", "Cargo.lock", "src/**/*.rs"]
+outputs = ["pkg/*.wasm", "pkg/*.js", "pkg/*.d.ts"]
 
 [tools]
 "aqua:WebAssembly/binaryen" = "120_b"
