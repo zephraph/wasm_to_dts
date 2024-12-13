@@ -1,3 +1,7 @@
+[tasks.pull-wasm]
+description = "Pull the wasm.rs file from deno_graph"
+run = "./scripts/update-wasm-rs.ts"
+
 [tasks.build]
 description = "Build the WASM binary"
 run = "wasm-pack build --target web"
@@ -5,4 +9,5 @@ run = "wasm-pack build --target web"
 [tools]
 "aqua:WebAssembly/binaryen" = "120_b"
 "aqua:rustwasm/wasm-pack" = "0.13.1"
+deno = "2.1.4"
 rust = { version = "1.83.0", postinstall = "rustup target add wasm32-unknown-unknown" }
